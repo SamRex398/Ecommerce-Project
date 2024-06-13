@@ -53,9 +53,37 @@ const loginUser = async (req, res)=>{
     res.cookie('user', token);
     res.json({message: "Login successful"}).status(200);
 }
+const getUserProfile = async (req, res)=>{
+    // const {user} = req.cookies;
+
+   res.json({
+    UserName: req.user.username,
+    Email: req.user.email,
+    Role: req.user.role
+   }).status(200);
+
+}
+const updateUserProfile = async (req, res)=>{
+    const {email, _id, role, ...others} = req.body;
+
+    if(req.body === null || req.body === undefined){
+        return res.json({message: "No data provided"}).status(400)
+    }
+
+    const id = req.user._id;
+
+    const updateUserProfile = await userModel.findByIdAndUpdate(id, {...others}, {new: true});
+    if(!updateUserProfile){
+        return res.json({message: "Error updating credentials"}).status(404)
+    }else{
+       return res.json({message: "Credentials updated successfully"}).status(200)
+    }
+}
 
 
 module.exports = {
     registerUser,
-    loginUser
+    loginUser,
+    getUserProfile,
+    updateUserProfile
 }
