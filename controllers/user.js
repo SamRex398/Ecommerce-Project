@@ -48,7 +48,7 @@ const loginUser = async (req, res)=>{
         return res.json({message: "Incorrect password"}).status(401);
     };
 
-    const token = jwt.sign(JSON.stringify(getUser), process.env.JWT_KEY);
+    const token = jwt.sign({id: getUser._id, role:getUser.role}, process.env.JWT_KEY);
 
     res.cookie('user', token);
     res.json({message: "Login successful"}).status(200);
@@ -79,11 +79,22 @@ const updateUserProfile = async (req, res)=>{
        return res.json({message: "Credentials updated successfully"}).status(200)
     }
 }
+const deleteUser =async (req, res)=>{
+    const {id} = req.body;
+
+    const deleteUser = await userModel.findByIdAndDelete(id);
+    if(!deleteUser){
+        return res.json({message: "Error deleting user"}).status(404)
+    }else{
+       return res.json({message: "User deleted successfully"}).status(200)
+    }
+}
 
 
 module.exports = {
     registerUser,
     loginUser,
     getUserProfile,
-    updateUserProfile
+    updateUserProfile,
+    deleteUser
 }
