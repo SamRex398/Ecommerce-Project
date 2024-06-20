@@ -7,19 +7,30 @@ const orderSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    products:{
-        type: Array
-    },
+    products:[
+        {
+            productId:{
+                type: String,
+                required: true
+            },
+            quantity:{
+                type: Number,
+                default: 1,
+                min: 1
+            }
+        }
+    ],
     totalPrice:{
         type: Number
     },
     status:{
-        type: String
+        type: String,
+        default: "Pending"
     }
 },{
     timestamps: true
 })
 
-const orderModel = mogose.model('order', orderSchema);
+const orderModel = mongoose.model('order', orderSchema);
 
 module.exports = orderModel

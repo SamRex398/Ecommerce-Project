@@ -14,7 +14,7 @@ route.post('/addproduct', verify, isAdmin, createProduct);
 route.get('/', verify, readProducts);
 route.get('/:category', verify, readProductsByCartegory)
 route.put('/updateproduct/:id', verify, isAdmin, updateProduduct);
-route.delete('/deleteproduct', verify, isAdmin, deleteProduct);
+route.delete('/deleteproduct/id', verify, isAdmin, deleteProduct);
 
 
 module.exports = route
