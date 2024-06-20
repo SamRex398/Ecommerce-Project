@@ -9,39 +9,36 @@
 const orderModel = require('../models/order');
 
 const placeOrder = async (req, res)=>{
-    const userId = req.user._id;
-    const { productId, quantity, totalPrice} = req.body;
+    const userId = req.user.id;
+    const { products,totalPrice} = req.body;
 
-    if(!productId || !quantity || !totalPrice){
+
+    if(!products || !totalPrice){
         return res.json({message: "Input all required fields"}).status(400)
     };
 
     try{
         const newOrder = await orderModel.create({
             userId,
-            products:[{
-                productId,
-                quantity
-            }],
+            products,
             totalPrice
         })
         const savedOrder = await newOrder.save();
+
 
         res.json({message: "Order Placed Successfully"}).status(200)
     }catch(err){
         res.json({messgae: err.message}).status(400)
     }
 }
+
 const viewOrder = async (req, res)=>{
-    const userId = req.user._id;
+    
 
     try{
-        const order = await orderModel.find({userId});
-         res.json({
-            product: order.products,
-            totalPrice: order.totalPrice,
-            status: order.status
-         }).status(201);
+        const order = await orderModel.find({userId: req.user.id});
+        console.log(order)
+         res.json({order}).status(201);
     }catch(err){
         res.json({message: err.messgae}).status(400);
     }

@@ -9,9 +9,10 @@ const {
 const verify = require('../middlewares/verify');
 const isAdmin = require('../middlewares/isAdmin');
 
-route.post('/placeOrder', verify, placeOrder);
+route.post('/placeorder', verify, placeOrder);
 route.get('/orders', verify, viewOrder)
-route.get('/allOrders',verify, isAdmin, viewOrderAdmin)
-route.put('/updateOrder',verify, isAdmin, updateOrder)
+route.get('/allorders',verify, isAdmin, viewOrderAdmin)
+route.put('/updateorder',verify, isAdmin, updateOrder)
 
 
+module.exports = route
