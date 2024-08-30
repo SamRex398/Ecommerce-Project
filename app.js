@@ -18,6 +18,9 @@ mongoose.connect(
 app.use(express.json());
 app.use(cookieParser());
 
+app.get('/', (req, res) => {
+    res.send('Welcome to the homepage!');
+});
 
 app.use('/user', userRoute);
 app.use('/product', productRoute);
