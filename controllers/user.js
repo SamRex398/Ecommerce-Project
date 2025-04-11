@@ -25,7 +25,7 @@ const registerUser = async (req, res)=>{
     try{
         const newUser = await userModel.create({username, email, password:hashPassword });
         await newUser.validate();
-        const savedPassword = await newUser.save();        
+        const savedUser = await newUser.save();        
     }catch(error){
         return res.json({message: error.message}).status(500);
     };
